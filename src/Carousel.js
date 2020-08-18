@@ -9,28 +9,39 @@ function Carousel(props) {
   const [cardIdx, setCardIdx] = useState(0);
   const card = props.cardData[cardIdx];
   const total = props.cardData.length;
-  const goForward = () => setCardIdx(cardIdx + 1);
+  const isGreaterThanLength = () => cardIdx >= props.cardData.length-1
+  const isLessThanZero = () => cardIdx <= 0
+  const goForward = () => setCardIdx( cardIdx + 1);
+  const goBackwards = () => setCardIdx(cardIdx - 1);
+
+  let leftIcon = isLessThanZero()? null :  <i
+  className="fas fa-chevron-circle-left fa-2x"
+  onClick={goBackwards}
+  data-testid="left-arrow"
+  />
+
+  let rightIcon = isGreaterThanLength()? null :  <i
+  className="fas fa-chevron-circle-right fa-2x"
+  onClick={goForward}
+  data-testid="right-arrow"
+/>
+
+
+
 
   return (
     <div className="Carousel">
       <h1>{props.title}</h1>
       <div className="Carousel-main">
-        <i
-          className="fas fa-chevron-circle-left fa-2x"
-          onClick={goForward}
-          data-testid="left-arrow"
-        />
+
+        {leftIcon}
         <Card
           caption={card.caption}
           src={card.src}
           currNum={cardIdx + 1}
           totalNum={total}
         />
-        <i
-          className="fas fa-chevron-circle-right fa-2x"
-          onClick={goForward}
-          data-testid="right-arrow"
-        />
+        {rightIcon}
       </div>
     </div>
   );
